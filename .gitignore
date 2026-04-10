@@ -1,0 +1,9 @@
+bin/
+obj/
+*.user
+*.log
+*.cache
+*.pdb
+*.dll
+*.exe
+node_modules/
