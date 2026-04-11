@@ -7,7 +7,7 @@ using MatchBoard.Web.Models;
 
 namespace MatchBoard.Web.Controllers
 {
-    [Authorize(Roles = "Student")]
+    [Authorize]
     public class ProjectController : Controller
     {
         private readonly AppDbContext _context;
@@ -19,7 +19,6 @@ namespace MatchBoard.Web.Controllers
             _userManager = userManager;
         }
 
-        // GET: My Projects
         public async Task<IActionResult> Index()
         {
             var userId = _userManager.GetUserId(User);
@@ -29,10 +28,8 @@ namespace MatchBoard.Web.Controllers
             return View(projects);
         }
 
-        // GET: Submit new project
         public IActionResult Create() => View();
 
-        // POST: Submit new project
         [HttpPost]
         public async Task<IActionResult> Create(Project project)
         {
@@ -48,7 +45,6 @@ namespace MatchBoard.Web.Controllers
             return View(project);
         }
 
-        // GET: Edit project
         public async Task<IActionResult> Edit(int id)
         {
             var userId = _userManager.GetUserId(User);
@@ -58,7 +54,6 @@ namespace MatchBoard.Web.Controllers
             return View(project);
         }
 
-        // POST: Edit project
         [HttpPost]
         public async Task<IActionResult> Edit(Project project)
         {
@@ -71,7 +66,6 @@ namespace MatchBoard.Web.Controllers
             return View(project);
         }
 
-        // POST: Withdraw project
         [HttpPost]
         public async Task<IActionResult> Withdraw(int id)
         {
@@ -86,4 +80,4 @@ namespace MatchBoard.Web.Controllers
             return RedirectToAction("Index");
         }
     }
-} 
+}

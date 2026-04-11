@@ -15,10 +15,8 @@ namespace MatchBoard.Web.Controllers
             _signInManager = signInManager;
         }
 
-        // GET: Register
         public IActionResult Register() => View();
 
-        // POST: Register
         [HttpPost]
         public async Task<IActionResult> Register(string fullName, string email, string password)
         {
@@ -45,10 +43,8 @@ namespace MatchBoard.Web.Controllers
             return View();
         }
 
-        // GET: Login
         public IActionResult Login() => View();
 
-        // POST: Login
         [HttpPost]
         public async Task<IActionResult> Login(string email, string password)
         {
@@ -61,7 +57,6 @@ namespace MatchBoard.Web.Controllers
             return View();
         }
 
-        // POST: Logout
         [HttpPost]
         public async Task<IActionResult> Logout()
         {

@@ -1,3 +1,4 @@
+C:\Users\PCWORLD.NET\Desktop\MatchBoard\obj\Debug\net9.0\MatchBoard.Web.csproj.AssemblyReference.cache
 C:\Users\PCWORLD.NET\Desktop\MatchBoard\obj\Debug\net9.0\rpswa.dswa.cache.json
 C:\Users\PCWORLD.NET\Desktop\MatchBoard\obj\Debug\net9.0\MatchBoard.Web.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\PCWORLD.NET\Desktop\MatchBoard\obj\Debug\net9.0\MatchBoard.Web.AssemblyInfoInputs.cache
@@ -7,7 +8,6 @@ C:\Users\PCWORLD.NET\Desktop\MatchBoard\obj\Debug\net9.0\MatchBoard.Web.MvcAppli
 C:\Users\PCWORLD.NET\Desktop\MatchBoard\obj\Debug\net9.0\MatchBoard.Web.RazorAssemblyInfo.cache
 C:\Users\PCWORLD.NET\Desktop\MatchBoard\obj\Debug\net9.0\MatchBoard.Web.RazorAssemblyInfo.cs
 C:\Users\PCWORLD.NET\Desktop\MatchBoard\obj\Debug\net9.0\MatchBoard.Web.sourcelink.json
-C:\Users\PCWORLD.NET\Desktop\MatchBoard\obj\Debug\net9.0\MatchBoard.Web.csproj.AssemblyReference.cache
 C:\Users\PCWORLD.NET\Desktop\MatchBoard\bin\Debug\net9.0\appsettings.Development.json
 C:\Users\PCWORLD.NET\Desktop\MatchBoard\bin\Debug\net9.0\appsettings.json
 C:\Users\PCWORLD.NET\Desktop\MatchBoard\bin\Debug\net9.0\MatchBoard.Web.staticwebassets.runtime.json
