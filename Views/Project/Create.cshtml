@@ -1,0 +1,42 @@
+@model MatchBoard.Web.Models.Project
+@{
+    ViewData["Title"] = "Submit Proposal";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="mb-4">Submit Project Proposal</h2>
+
+            <form method="post" action="/Project/Create">
+                <div class="mb-3">
+                    <label class="form-label">Project Title</label>
+                    <input type="text" name="Title" class="form-control" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Abstract</label>
+                    <textarea name="Abstract" class="form-control" rows="4" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Technical Stack</label>
+                    <input type="text" name="TechStack" class="form-control" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Research Area</label>
+                    <select name="ResearchArea" class="form-select" required>
+                        <option value="">-- Select Area --</option>
+                        <option value="Artificial Intelligence">Artificial Intelligence</option>
+                        <option value="Web Development">Web Development</option>
+                        <option value="Cybersecurity">Cybersecurity</option>
+                        <option value="Cloud Computing">Cloud Computing</option>
+                        <option value="Machine Learning">Machine Learning</option>
+                        <option value="Mobile Development">Mobile Development</option>
+                        <option value="Internet of Things">Internet of Things</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Proposal</button>
+                <a href="/Project/Index" class="btn btn-outline-secondary ms-2">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
