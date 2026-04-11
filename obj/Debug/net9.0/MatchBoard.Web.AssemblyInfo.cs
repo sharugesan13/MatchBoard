@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MatchBoard.Web")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a37aa4ed219d976ff05740684caeb20f5ec3326d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fea4948daa76c3ab560fdde706a82d3de47d93ef")]
 [assembly: System.Reflection.AssemblyProductAttribute("MatchBoard.Web")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MatchBoard.Web")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
