@@ -1,0 +1,91 @@
+html
+@model IEnumerable<MatchBoard.Web.Models.Project>
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4">Module Leader Dashboard</h2>
+
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-white bg-primary">
+                <div class="card-body">
+                    <h5 class="card-title">Total Projects</h5>
+                    <h2>@ViewBag.TotalProjects</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-success">
+                <div class="card-body">
+                    <h5 class="card-title">Matched</h5>
+                    <h2>@ViewBag.MatchedProjects</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-warning">
+                <div class="card-body">
+                    <h5 class="card-title">Pending</h5>
+                    <h2>@ViewBag.PendingProjects</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-info">
+                <div class="card-body">
+                    <h5 class="card-title">Total Users</h5>
+                    <h2>@ViewBag.TotalUsers</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4>All Projects</h4>
+        <div>
+            <a asp-action="Users" class="btn btn-outline-primary me-2">Manage Users</a>
+            <a asp-action="ResearchAreas" class="btn btn-outline-secondary">Research Areas</a>
+        </div>
+    </div>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Research Area</th>
+                <th>Status</th>
+                <th>Student ID</th>
+                <th>Supervisor ID</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var project in Model)
+            {
+                <tr>
+                    <td>@project.Title</td>
+                    <td>@project.ResearchArea</td>
+                    <td>
+                        <span class="badge @(project.Status == "Matched" ? "bg-success" : project.Status == "UnderReview" ? "bg-warning" : "bg-secondary")">
+                            @project.Status
+                        </span>
+                    </td>
+                    <td>@project.StudentId</td>
+                    <td>@(project.SupervisorId ?? "Unassigned")</td>
+                    <td>
+                        @if (project.Status != "Matched")
+                        {
+                            <form method="post" action="/Admin/Reassign" class="d-flex gap-2">
+                                <input type="hidden" name="projectId" value="@project.Id" />
+                                <input type="text" name="newSupervisorId" class="form-control form-control-sm" placeholder="Supervisor ID" />
+                                <button type="submit" class="btn btn-sm btn-warning">Reassign</button>
+                            </form>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
