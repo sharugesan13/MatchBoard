@@ -1,0 +1,40 @@
+html
+@model IEnumerable<MatchBoard.Web.Models.ApplicationUser>
+@{
+    ViewData["Title"] = "User Management";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4">User Management</h2>
+    <a asp-action="Dashboard" class="btn btn-outline-secondary mb-3">Back to Dashboard</a>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Research Area</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.FullName</td>
+                    <td>@user.Email</td>
+                    <td>@user.Role</td>
+                    <td>@(user.ResearchArea ?? "-")</td>
+                    <td>
+                        <form method="post" action="/Admin/DeleteUser">
+                            <input type="hidden" name="userId" value="@user.Id" />
+                            <button type="submit" class="btn btn-sm btn-danger"
+                                onclick="return confirm('Delete this user?')">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
