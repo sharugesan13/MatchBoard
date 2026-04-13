@@ -8,117 +8,24 @@ html {
   }
 }
 
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
 body {
-  min-height: 100vh;
-  background: #f5f7fb;
-  color: #172033;
+  margin-bottom: 60px;
 }
 
-.matchboard-shell {
-  display: flex;
-  flex-direction: column;
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
 }
 
-.matchboard-nav {
-  background: linear-gradient(135deg, #1f4aa8, #153476);
-}
-
-.matchboard-nav .navbar-brand,
-.matchboard-nav .nav-link,
-.matchboard-nav .navbar-toggler {
-  color: #ffffff;
-}
-
-.matchboard-nav .nav-link:hover,
-.matchboard-nav .nav-link:focus,
-.matchboard-nav .navbar-brand:hover {
-  color: #dce8ff;
-}
-
-.hero-card {
-  background: #ffffff;
-  border-radius: 24px;
-  padding: 2rem;
-}
-
-.credential-card,
-.login-card .demo-note {
-  background: #f7f9ff;
-  border: 1px solid #dfe7fb;
-  border-radius: 16px;
-  padding: 1rem;
-}
-
-.eyebrow {
-  display: inline-block;
-  font-size: 0.85rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #1f4aa8;
-}
-
-.card,
-.hero-card,
-.area-card {
-  border-radius: 18px;
-}
-
-.area-card {
-  background: #f8fbff;
-  border: 1px solid #dce6f8;
-  padding: 1rem;
-}
-
-.stat-card {
-  background: linear-gradient(180deg, #ffffff, #f6f8fd);
-}
-
-.stat-label {
-  color: #63718e;
-  font-size: 0.95rem;
-}
-
-.stat-value {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-top: 0.4rem;
-}
-
-.match-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.9rem 0;
-  border-bottom: 1px solid #edf1f8;
-}
-
-.match-row:last-child {
-  border-bottom: none;
-}
-
-.interest-card {
-  border: 1px solid #b7e4c7;
-}
-
-.table thead th {
-  color: #5b6884;
-  font-weight: 600;
-  background: #f7f9fd;
-}
-
-.btn-primary {
-  background-color: #1f4aa8;
-  border-color: #1f4aa8;
-}
-
-.btn-primary:hover,
-.btn-primary:focus {
-  background-color: #183b88;
-  border-color: #183b88;
-}
-
-footer {
-  background: #ffffff;
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
 }

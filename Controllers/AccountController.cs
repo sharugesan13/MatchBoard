@@ -1,95 +1,98 @@
-using MatchBoard.Web.Models.Domain;
-using MatchBoard.Web.Models.ViewModels;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MatchBoard.Web.Models;
 
 namespace MatchBoard.Web.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public AccountController(
-            SignInManager<ApplicationUser> signInManager,
-            UserManager<ApplicationUser> userManager)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
-            _signInManager = signInManager;
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
-        [HttpGet]
-        public IActionResult Login(string? returnUrl = null)
-        {
-            if (User.Identity?.IsAuthenticated == true)
-            {
-                return RedirectToDashboard();
-            }
-
-            ViewData["ReturnUrl"] = returnUrl;
-            return View(new LoginViewModel());
-        }
+        public IActionResult Register() => View();
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl = null)
+        public async Task<IActionResult> Register(string fullName, string email, string password)
         {
-            if (!ModelState.IsValid)
+            var user = new ApplicationUser
             {
-                ViewData["ReturnUrl"] = returnUrl;
-                return View(model);
-            }
+                FullName = fullName,
+                UserName = email,
+                Email = email,
+                Role = "Student"
+            };
 
-            var result = await _signInManager.PasswordSignInAsync(
-                model.Email,
-                model.Password,
-                model.RememberMe,
-                lockoutOnFailure: false);
+            var result = await _userManager.CreateAsync(user, password);
 
             if (result.Succeeded)
             {
-                if (!string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl))
-                {
-                    return Redirect(returnUrl);
-                }
-
-                var user = await _userManager.FindByEmailAsync(model.Email);
-                if (user != null && await _userManager.IsInRoleAsync(user, "Supervisor"))
-                {
-                    return RedirectToAction("Dashboard", "Supervisor");
-                }
-
+                await _userManager.AddToRoleAsync(user, "Student");
+                await _signInManager.SignInAsync(user, isPersistent: false);
                 return RedirectToAction("Index", "Home");
             }
 
-            ModelState.AddModelError(string.Empty, "Invalid email or password.");
-            ViewData["ReturnUrl"] = returnUrl;
-            return View(model);
+            foreach (var error in result.Errors)
+                ModelState.AddModelError("", error.Description);
+
+            return View();
         }
 
-        [Authorize]
+        public IActionResult Login() => View();
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(string email, string password)
+        {
+            var result = await _signInManager.PasswordSignInAsync(email, password, false, false);
+
+            if (result.Succeeded)
+                return RedirectToAction("Index", "Home");
+
+            ModelState.AddModelError("", "Invalid login attempt.");
+            return View();
+        }
+
+        [HttpPost]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult AccessDenied()
-        {
-            return View();
-        }
+        csharp
+// Supervisor Register
+public IActionResult SupervisorRegister() => View();
 
-        private IActionResult RedirectToDashboard()
-        {
-            if (User.Identity?.IsAuthenticated == true && User.IsInRole("Supervisor"))
-            {
-                return RedirectToAction("Dashboard", "Supervisor");
-            }
+[HttpPost]
+public async Task<IActionResult> SupervisorRegister(string fullName, string email, string password)
+{
+    var user = new ApplicationUser
+    {
+        FullName = fullName,
+        UserName = email,
+        Email = email,
+        Role = "Supervisor"
+    };
 
-            return RedirectToAction("Index", "Home");
-        }
+    var result = await _userManager.CreateAsync(user, password);
+
+    if (result.Succeeded)
+    {
+        await _userManager.AddToRoleAsync(user, "Supervisor");
+        await _signInManager.SignInAsync(user, isPersistent: false);
+        return RedirectToAction("Dashboard", "Supervisor");
+    }
+
+    foreach (var error in result.Errors)
+        ModelState.AddModelError("", error.Description);
+
+    return View();
+}
+
     }
 }

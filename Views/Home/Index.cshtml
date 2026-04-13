@@ -1,57 +1,8 @@
-@{
-    ViewData["Title"] = "Home";
+﻿@{
+    ViewData["Title"] = "Home Page";
 }
 
-<div class="hero-card shadow-lg">
-    <div class="row align-items-center g-4">
-        <div class="col-lg-7">
-            <span class="eyebrow">Blind Project Allocation System</span>
-            <h1 class="display-5 fw-bold mt-2">Supervisor module for anonymous project review</h1>
-            <p class="lead text-secondary mt-3">
-                This branch focuses on the supervisor workflow: login, research area selection,
-                blind review of proposals, and expressing interest without exposing student identity.
-            </p>
-            <div class="d-flex flex-wrap gap-2 mt-4">
-                <a class="btn btn-primary btn-lg" asp-controller="Account" asp-action="Login">Open supervisor login</a>
-                <a class="btn btn-outline-secondary btn-lg" asp-controller="Supervisor" asp-action="Browse">Try blind review</a>
-            </div>
-        </div>
-        <div class="col-lg-5">
-            <div class="credential-card">
-                <h5 class="mb-3">Seeded demo account</h5>
-                <p class="mb-1"><strong>Email:</strong> supervisor@matchboard.local</p>
-                <p class="mb-1"><strong>Password:</strong> Supervisor@123</p>
-                <p class="small text-secondary mt-3 mb-0">
-                    After creating the database, log in as the seeded supervisor and select one or more expertise areas.
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row mt-4 g-3">
-    <div class="col-md-4">
-        <div class="card shadow-sm h-100 border-0">
-            <div class="card-body">
-                <h5>Supervisor login</h5>
-                <p class="text-secondary mb-0">Cookie-based authentication with role-based access so only supervisors can access the module.</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card shadow-sm h-100 border-0">
-            <div class="card-body">
-                <h5>Blind review dashboard</h5>
-                <p class="text-secondary mb-0">Proposals are filtered by expertise and shown without student name, email, or ID.</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card shadow-sm h-100 border-0">
-            <div class="card-body">
-                <h5>Express interest</h5>
-                <p class="text-secondary mb-0">A supervisor can move a matching proposal into the Under Review state in one click.</p>
-            </div>
-        </div>
-    </div>
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
