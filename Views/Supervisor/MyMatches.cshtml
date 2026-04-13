@@ -1,0 +1,54 @@
+@model IReadOnlyList<SupervisorMatchViewModel>
+@{
+    ViewData["Title"] = "My Matches";
+}
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+    <div>
+        <h1 class="h2 mb-1">My Matches</h1>
+        <p class="text-secondary mb-0">Projects where you have already expressed interest.</p>
+    </div>
+    <a asp-action="Browse" class="btn btn-primary">Back to blind review</a>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+            <h5>No supervisor activity yet</h5>
+            <p class="text-secondary">Browse projects and express interest to see them listed here.</p>
+        </div>
+    </div>
+}
+else
+{
+    <div class="card border-0 shadow-sm">
+        <div class="table-responsive">
+            <table class="table align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Project</th>
+                        <th>Research Area</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var match in Model)
+                {
+                    <tr>
+                        <td class="fw-semibold">@match.ProjectTitle</td>
+                        <td>@match.ResearchArea</td>
+                        <td>
+                            <span class="badge @(match.IsRevealed ? "text-bg-success" : "text-bg-warning")">
+                                @(match.IsRevealed ? "Matched" : "Under Review")
+                            </span>
+                        </td>
+                        <td>@match.MatchedAt.ToString("dd MMM yyyy")</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
