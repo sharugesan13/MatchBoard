@@ -28,3 +28,14 @@ MatchBoard is a web-based application designed to manage and automate the matchi
 ---
 
 ## 📁 Project Structure
+MatchBoard/
+│── MatchBoard.Web/ → Main web application
+│ │── Controllers/ → MVC Controllers
+│ │── Models/ → Domain & ViewModels
+│ │── Views/ → Razor Views
+│ │── Services/ → Business Logic (MatchingService)
+│ │── Data/ → Database Context
+│ │── Migrations/ → EF Core Migrations
+│ │── wwwroot/ → Static files (CSS, JS, Libraries)
+│
+│── MatchBoard.Tests/ → Unit Testing Project
