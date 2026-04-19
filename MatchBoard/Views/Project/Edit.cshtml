@@ -1,0 +1,48 @@
+@model MatchBoard.Web.Models.Project
+@{
+    ViewData["Title"] = "Edit Proposal";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="mb-4">Edit Project Proposal</h2>
+
+            <form method="post" action="/Project/Edit">
+                <input type="hidden" name="Id" value="@Model.Id" />
+                <input type="hidden" name="StudentId" value="@Model.StudentId" />
+                <input type="hidden" name="Status" value="@Model.Status" />
+                <input type="hidden" name="SubmittedAt" value="@Model.SubmittedAt" />
+
+                <div class="mb-3">
+                    <label class="form-label">Project Title</label>
+                    <input type="text" name="Title" value="@Model.Title" class="form-control" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Abstract</label>
+                    <textarea name="Abstract" class="form-control" rows="4" required>@Model.Abstract</textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Technical Stack</label>
+                    <input type="text" name="TechStack" value="@Model.TechStack" class="form-control" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Research Area</label>
+                    <select name="ResearchArea" class="form-select" required>
+                        <option value="">-- Select Area --</option>
+                        <option value="Artificial Intelligence" selected="@(Model.ResearchArea == "Artificial Intelligence")">Artificial Intelligence</option>
+                        <option value="Web Development" selected="@(Model.ResearchArea == "Web Development")">Web Development</option>
+                        <option value="Cybersecurity" selected="@(Model.ResearchArea == "Cybersecurity")">Cybersecurity</option>
+                        <option value="Cloud Computing" selected="@(Model.ResearchArea == "Cloud Computing")">Cloud Computing</option>
+                        <option value="Machine Learning" selected="@(Model.ResearchArea == "Machine Learning")">Machine Learning</option>
+                        <option value="Mobile Development" selected="@(Model.ResearchArea == "Mobile Development")">Mobile Development</option>
+                        <option value="Internet of Things" selected="@(Model.ResearchArea == "Internet of Things")">Internet of Things</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <a href="/Project/Index" class="btn btn-outline-secondary ms-2">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>

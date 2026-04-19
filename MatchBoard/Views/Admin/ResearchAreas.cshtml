@@ -1,0 +1,29 @@
+@model IEnumerable<string>
+@{
+    ViewData["Title"] = "Research Areas";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4">Research Area Management</h2>
+    <a asp-action="Dashboard" class="btn btn-outline-secondary mb-3">Back to Dashboard</a>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Research Area</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{int i = 1;}
+            @foreach (var area in Model)
+            {
+                <tr>
+                    <td>@i</td>
+                    <td>@area</td>
+                </tr>
+                i++;
+            }
+        </tbody>
+    </table>
+</div>

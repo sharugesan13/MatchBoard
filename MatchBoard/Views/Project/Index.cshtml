@@ -1,0 +1,101 @@
+@model IEnumerable<MatchBoard.Web.Models.Project>
+@{
+    ViewData["Title"] = "My Projects";
+}
+<style>
+@@keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+.pg-header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 24px;
+    animation: fadeUp 0.4s ease both;
+}
+.pg-header h2 { font-size: 20px; font-weight: 700; margin: 0 0 3px; color: #f8fafc !important; }
+.pg-header p { font-size: 13px; color: #475569; margin: 0; }
+.table-container {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 14px; overflow: hidden;
+    backdrop-filter: blur(16px);
+    position: relative;
+    animation: fadeUp 0.4s 0.08s ease both; opacity:0; animation-fill-mode:both;
+}
+.table-container::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(167,139,250,0.4), transparent);
+}
+.empty-box {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 14px; padding: 64px 24px;
+    text-align: center; backdrop-filter: blur(16px);
+    animation: fadeUp 0.4s ease both;
+}
+.empty-box .e-icon { font-size: 44px; margin-bottom: 14px; display: block; }
+.empty-box h4 { font-size: 16px; color: #f8fafc !important; margin-bottom: 6px; }
+.empty-box p { font-size: 13px; color: #475569; max-width: 280px; margin: 0 auto 20px; }
+</style>
+
+<div>
+    <div class="pg-header">
+        <div>
+            <h2>My Project Proposals</h2>
+            <p>Manage your research project submissions</p>
+        </div>
+        <a asp-action="Create" class="btn btn-primary">+ New Proposal</a>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="empty-box">
+            <span class="e-icon">📋</span>
+            <h4>No proposals yet</h4>
+            <p>You have no project proposals yet.</p>
+            <a asp-action="Create" class="btn btn-primary btn-sm">Submit your first proposal</a>
+        </div>
+    }
+    else
+    {
+        <div class="table-container">
+            <table class="table table-bordered mb-0">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Research Area</th>
+                        <th>Status</th>
+                        <th>Submitted</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var project in Model)
+                    {
+                        <tr>
+                            <td>@project.Title</td>
+                            <td>@project.ResearchArea</td>
+                            <td>
+                                <span class="badge @(project.Status == "Matched" ? "bg-success" : project.Status == "UnderReview" ? "bg-warning" : "bg-secondary")">
+                                    @project.Status
+                                </span>
+                            </td>
+                            <td>@project.SubmittedAt.ToShortDateString()</td>
+                            <td>
+                                @if (project.Status == "Pending")
+                                {
+                                    <a asp-action="Edit" asp-route-id="@project.Id" class="btn btn-sm btn-outline-primary me-1">Edit</a>
+                                    <form method="post" asp-action="Withdraw" asp-route-id="@project.Id" class="d-inline">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Withdraw this proposal?')">Withdraw</button>
+                                    </form>
+                                }
+                                @if (project.Status == "Matched" && project.IdentityRevealed)
+                                {
+                                    <span style="color:#34d399;font-weight:600;font-size:12px">✔ Supervisor Revealed</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

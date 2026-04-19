@@ -1,0 +1,31 @@
+@model IEnumerable<MatchBoard.Web.Models.Project>
+@{
+    ViewData["Title"] = "My Matches";
+    var matchDetails = ViewBag.MatchDetails as List<(MatchBoard.Web.Models.Project project, MatchBoard.Web.Models.ApplicationUser? student)>;
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4">My Matched Projects</h2>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">No matched projects yet.</div>
+    }
+    else
+    {
+        @foreach (var item in matchDetails!)
+        {
+            <div class="card mb-3 border-success">
+                <div class="card-body">
+                    <h5 class="card-title">@item.project.Title</h5>
+                    <span class="badge bg-success mb-2">Matched</span>
+                    <p>@item.project.Abstract</p>
+                    <hr />
+                    <h6>Student Details (Revealed)</h6>
+                    <p><strong>Name:</strong> @item.student?.FullName</p>
+                    <p><strong>Email:</strong> @item.student?.Email</p>
+                </div>
+            </div>
+        }
+    }
+</div>

@@ -1,0 +1,515 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MatchBoard</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-img: url('/images/bg.jpeg');
+            --text: #ffffff;
+            --text2: #e2e8f0;
+            --text3: #94a3b8;
+            --accent: #ffffff;
+            --accent2: #f1f5f9;
+            --border: rgba(255,255,255,0.12);
+            --border-hover: rgba(255,255,255,0.3);
+            --card: rgba(255,255,255,0.06);
+            --card-hover: rgba(255,255,255,0.1);
+            --green: #4ade80;
+            --green-bg: rgba(74,222,128,0.1);
+            --green-border: rgba(74,222,128,0.25);
+            --yellow: #fbbf24;
+            --yellow-bg: rgba(251,191,36,0.1);
+            --yellow-border: rgba(251,191,36,0.25);
+            --red: #f87171;
+            --red-bg: rgba(248,113,113,0.1);
+            --red-border: rgba(248,113,113,0.25);
+            --radius: 10px;
+            --radius-lg: 14px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            height: 100%;
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--text);
+            -webkit-font-smoothing: antialiased;
+            font-size: 14px;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        body {
+            background: var(--bg-img) center center / cover fixed no-repeat;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        #particles-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        #cursor-glow {
+            position: fixed;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 2;
+            transform: translate(-50%, -50%);
+            transition: left 0.08s ease, top 0.08s ease;
+        }
+
+        header, .content-wrap, footer { position: relative; z-index: 10; }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            background: rgba(0,0,0,0.55) !important;
+            border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+            backdrop-filter: blur(20px);
+            position: sticky; top: 0; z-index: 100;
+            padding: 0 !important;
+            height: 56px;
+        }
+        .navbar .container { height: 56px; display: flex; align-items: center; }
+        .navbar-brand {
+            font-size: 16px !important;
+            font-weight: 700 !important;
+            color: #ffffff !important;
+            letter-spacing: -0.3px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .brand-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: #ffffff;
+            box-shadow: 0 0 8px #ffffff, 0 0 16px rgba(255,255,255,0.5);
+            display: inline-block;
+            animation: dotPulse 2.5s ease-in-out infinite;
+        }
+        @@keyframes dotPulse {
+            0%,100%{ box-shadow: 0 0 6px #fff, 0 0 12px rgba(255,255,255,0.4); }
+            50%{ box-shadow: 0 0 14px #fff, 0 0 28px rgba(255,255,255,0.7); }
+        }
+        .nav-link {
+            color: #cbd5e1 !important;
+            font-size: 13px !important;
+            font-weight: 500 !important;
+            padding: 6px 12px !important;
+            border-radius: var(--radius);
+            transition: all 0.15s;
+        }
+        .nav-link:hover {
+            color: #ffffff !important;
+            background: rgba(255,255,255,0.08);
+        }
+        .nav-link.text-light { color: #94a3b8 !important; font-size: 13px !important; }
+        .navbar-toggler { border: 1px solid rgba(255,255,255,0.12) !important; padding: 4px 8px !important; }
+        .navbar-toggler-icon { filter: invert(1); }
+        .dropdown-menu {
+            background: rgba(10,10,18,0.95) !important;
+            border: 1px solid rgba(255,255,255,0.1) !important;
+            border-radius: var(--radius-lg) !important;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.6) !important;
+            padding: 6px !important;
+        }
+        .dropdown-item {
+            color: #cbd5e1 !important;
+            font-size: 13px !important;
+            font-weight: 500 !important;
+            border-radius: var(--radius) !important;
+            padding: 8px 12px !important;
+            transition: all 0.15s;
+        }
+        .dropdown-item:hover {
+            background: rgba(255,255,255,0.08) !important;
+            color: #ffffff !important;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            font-family: 'Space Grotesk', sans-serif !important;
+            font-size: 13px !important;
+            font-weight: 600 !important;
+            border-radius: var(--radius) !important;
+            padding: 8px 18px !important;
+            border: 1px solid transparent !important;
+            transition: all 0.2s !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            cursor: pointer;
+        }
+        .btn:active { transform: scale(0.97) !important; }
+
+        .btn-primary {
+            background: rgba(255,255,255,0.15) !important;
+            color: #ffffff !important;
+            border-color: rgba(255,255,255,0.3) !important;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 0 20px rgba(255,255,255,0.1) !important;
+        }
+        .btn-primary:hover {
+            background: rgba(255,255,255,0.25) !important;
+            border-color: rgba(255,255,255,0.5) !important;
+            box-shadow: 0 0 30px rgba(255,255,255,0.2) !important;
+            transform: translateY(-1px) !important;
+            color: #ffffff !important;
+        }
+        .btn-success {
+            background: var(--green-bg) !important;
+            color: var(--green) !important;
+            border-color: var(--green-border) !important;
+        }
+        .btn-success:hover {
+            background: rgba(74,222,128,0.2) !important;
+            transform: translateY(-1px) !important;
+        }
+        .btn-warning {
+            background: var(--yellow-bg) !important;
+            color: var(--yellow) !important;
+            border-color: var(--yellow-border) !important;
+        }
+        .btn-warning:hover {
+            background: rgba(251,191,36,0.2) !important;
+            transform: translateY(-1px) !important;
+        }
+        .btn-danger {
+            background: var(--red-bg) !important;
+            color: var(--red) !important;
+            border-color: var(--red-border) !important;
+        }
+        .btn-danger:hover { background: rgba(248,113,113,0.2) !important; }
+
+        .btn-outline-primary {
+            background: transparent !important;
+            border: 1px solid rgba(255,255,255,0.2) !important;
+            color: #e2e8f0 !important;
+        }
+        .btn-outline-primary:hover {
+            background: rgba(255,255,255,0.08) !important;
+            border-color: rgba(255,255,255,0.4) !important;
+            color: #ffffff !important;
+        }
+        .btn-outline-secondary {
+            background: transparent !important;
+            border: 1px solid rgba(255,255,255,0.12) !important;
+            color: #94a3b8 !important;
+        }
+        .btn-outline-secondary:hover {
+            background: rgba(255,255,255,0.06) !important;
+            border-color: rgba(255,255,255,0.25) !important;
+            color: #e2e8f0 !important;
+        }
+        .btn-outline-danger {
+            background: transparent !important;
+            border: 1px solid var(--red-border) !important;
+            color: var(--red) !important;
+        }
+        .btn-outline-danger:hover { background: var(--red-bg) !important; }
+        .btn-outline-light {
+            background: transparent !important;
+            border: 1px solid rgba(255,255,255,0.12) !important;
+            color: #94a3b8 !important;
+            font-size: 12px !important;
+        }
+        .btn-outline-light:hover {
+            background: rgba(255,255,255,0.06) !important;
+            color: #e2e8f0 !important;
+            border-color: rgba(255,255,255,0.2) !important;
+        }
+        .btn-sm { font-size: 12px !important; padding: 5px 14px !important; }
+
+        /* ===== CARDS ===== */
+        .card {
+            background: var(--card) !important;
+            border: 1px solid var(--border) !important;
+            border-radius: var(--radius-lg) !important;
+            color: var(--text) !important;
+            backdrop-filter: blur(16px);
+            transition: all 0.25s;
+        }
+        .card:hover {
+            background: var(--card-hover) !important;
+            border-color: rgba(255,255,255,0.2) !important;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4) !important;
+        }
+        .card-body { padding: 24px !important; }
+
+        /* ===== TABLES ===== */
+        .table { color: #e2e8f0 !important; border-color: rgba(255,255,255,0.08) !important; font-size: 13px !important; }
+        .table thead th {
+            background: rgba(255,255,255,0.04) !important;
+            color: #94a3b8 !important;
+            font-size: 11px !important; font-weight: 600 !important;
+            letter-spacing: 1px; text-transform: uppercase;
+            border-color: rgba(255,255,255,0.08) !important;
+            padding: 12px 16px !important;
+        }
+        .table tbody td {
+            border-color: rgba(255,255,255,0.06) !important;
+            padding: 13px 16px !important;
+            vertical-align: middle;
+            background: transparent !important;
+            color: #cbd5e1;
+        }
+        .table tbody td:first-child { color: #ffffff; font-weight: 600; }
+        .table tbody tr:hover td { background: rgba(255,255,255,0.04) !important; }
+        .table-bordered { border: 1px solid rgba(255,255,255,0.08) !important; border-radius: var(--radius-lg); overflow: hidden; }
+
+        /* ===== BADGES ===== */
+        .badge {
+            font-size: 11px !important; font-weight: 600 !important;
+            padding: 4px 10px !important; border-radius: 100px !important;
+            font-family: 'Space Grotesk', sans-serif !important;
+        }
+        .bg-success { background: var(--green-bg) !important; color: var(--green) !important; border: 1px solid var(--green-border) !important; }
+        .bg-warning { background: var(--yellow-bg) !important; color: var(--yellow) !important; border: 1px solid var(--yellow-border) !important; }
+        .bg-secondary { background: rgba(255,255,255,0.06) !important; color: #94a3b8 !important; border: 1px solid rgba(255,255,255,0.1) !important; }
+        .bg-danger { background: var(--red-bg) !important; color: var(--red) !important; border: 1px solid var(--red-border) !important; }
+
+        /* ===== FORMS ===== */
+        .form-control, .form-select {
+            background: rgba(255,255,255,0.06) !important;
+            border: 1px solid rgba(255,255,255,0.12) !important;
+            border-radius: var(--radius) !important;
+            color: #ffffff !important;
+            font-size: 13px !important;
+            font-family: 'Space Grotesk', sans-serif !important;
+            padding: 10px 14px !important;
+            transition: all 0.2s;
+            backdrop-filter: blur(8px);
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: rgba(255,255,255,0.4) !important;
+            box-shadow: 0 0 0 3px rgba(255,255,255,0.08) !important;
+            background: rgba(255,255,255,0.09) !important;
+            outline: none !important;
+            color: #ffffff !important;
+        }
+        .form-control::placeholder { color: rgba(148,163,184,0.6) !important; }
+        textarea.form-control { min-height: 110px; resize: vertical; }
+        .form-select option { background: #0f0f1a !important; color: #ffffff !important; }
+        .form-label {
+            font-size: 13px !important; font-weight: 500 !important;
+            color: #cbd5e1 !important; margin-bottom: 7px !important;
+        }
+
+        /* ===== ALERT ===== */
+        .alert-info {
+            background: rgba(255,255,255,0.06) !important;
+            border: 1px solid rgba(255,255,255,0.15) !important;
+            border-radius: var(--radius) !important;
+            color: #e2e8f0 !important; font-size: 13px;
+        }
+
+        /* ===== TYPOGRAPHY ===== */
+        h1, h2, h3, h4, h5 { color: #ffffff !important; font-weight: 700; letter-spacing: -0.3px; font-family: 'Space Grotesk', sans-serif; }
+        .text-muted { color: #64748b !important; }
+        .text-success { color: var(--green) !important; font-weight: 500; }
+        a { color: #e2e8f0 !important; text-decoration: none; transition: color 0.15s; }
+        a:hover { color: #ffffff !important; }
+        p { color: #cbd5e1; }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: rgba(0,0,0,0.5) !important;
+            border-top: 1px solid rgba(255,255,255,0.06) !important;
+            backdrop-filter: blur(12px);
+            padding: 16px 0 !important;
+            margin-top: 0 !important;
+        }
+        footer p { color: #475569 !important; margin: 0; font-size: 12px; }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.3); }
+
+        .container { position: relative; z-index: 1; }
+    </style>
+</head>
+<body>
+
+<div id="cursor-glow"></div>
+<canvas id="particles-canvas"></canvas>
+
+<header>
+    <nav class="navbar navbar-expand-sm navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <span class="brand-dot"></span>
+                MatchBoard
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto ms-3">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    @if (User.Identity!.IsAuthenticated)
+                    {
+                        @if (User.IsInRole("Student"))
+                        {
+                            <li class="nav-item"><a class="nav-link" href="/Project/Index">My Projects</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/Project/Create">Submit Proposal</a></li>
+                        }
+                        @if (User.IsInRole("Supervisor"))
+                        {
+                            <li class="nav-item"><a class="nav-link" href="/Supervisor/Dashboard">Review Projects</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/Supervisor/MyMatches">My Matches</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/Supervisor/SetExpertise">Set Expertise</a></li>
+                        }
+                        @if (User.IsInRole("ModuleLeader"))
+                        {
+                            <li class="nav-item"><a class="nav-link" href="/Admin/Dashboard">Admin Dashboard</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/Admin/Users">Manage Users</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/Admin/ResearchAreas">Research Areas</a></li>
+                        }
+                    }
+                </ul>
+                <ul class="navbar-nav align-items-center gap-1">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item">
+                            <span style="font-size:12px;color:#64748b;padding:0 8px">@User.Identity.Name</span>
+                        </li>
+                        <li class="nav-item">
+                            <form method="post" action="/Account/Logout">
+                                <button type="submit" class="btn btn-outline-light btn-sm">Logout</button>
+                            </form>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item"><a class="nav-link" href="/Account/Login">Login</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Register</a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="/Account/Register">Student</a></li>
+                                <li><a class="dropdown-item" href="/Account/SupervisorRegister">Supervisor</a></li>
+                                <li><a class="dropdown-item" href="/Account/ModuleLeaderRegister">Module Leader</a></li>
+                            </ul>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<div class="content-wrap container" style="padding-top:36px;padding-bottom:48px;min-height:calc(100vh - 56px - 53px)">
+    <main role="main">
+        @RenderBody()
+    </main>
+</div>
+
+<footer>
+    <div class="container text-center">
+        <p>&copy; 2026 MatchBoard — Blind Match Project Approval System</p>
+    </div>
+</footer>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
+
+<script>
+const glow = document.getElementById('cursor-glow');
+document.addEventListener('mousemove', e => {
+    glow.style.left = e.clientX + 'px';
+    glow.style.top  = e.clientY + 'px';
+});
+
+const canvas = document.getElementById('particles-canvas');
+const ctx    = canvas.getContext('2d');
+let W, H, particles = [];
+
+function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+}
+
+function createParticles() {
+    particles = [];
+    const count = Math.floor(W * H / 14000);
+    for (let i = 0; i < count; i++) {
+        particles.push({
+            x:  Math.random() * W,
+            y:  Math.random() * H,
+            r:  Math.random() * 1.8 + 0.3,
+            vx: (Math.random() - 0.5) * 0.25,
+            vy: (Math.random() - 0.5) * 0.25,
+            a:  Math.random() * Math.PI * 2,
+            da: Math.random() * 0.008 + 0.003
+        });
+    }
+}
+
+function draw() {
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy; p.a += p.da;
+        if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+        if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+        const alpha = 0.2 + 0.6 * Math.abs(Math.sin(p.a));
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+        ctx.fill();
+    });
+    for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+            const d = Math.hypot(particles[i].x - particles[j].x, particles[i].y - particles[j].y);
+            if (d < 90) {
+                ctx.beginPath();
+                ctx.moveTo(particles[i].x, particles[i].y);
+                ctx.lineTo(particles[j].x, particles[j].y);
+                ctx.strokeStyle = `rgba(255,255,255,${0.07 * (1 - d / 90)})`;
+                ctx.lineWidth = 0.5;
+                ctx.stroke();
+            }
+        }
+    }
+    requestAnimationFrame(draw);
+}
+
+resize(); createParticles(); draw();
+window.addEventListener('resize', () => { resize(); createParticles(); });
+
+document.addEventListener('mousemove', e => {
+    particles.forEach(p => {
+        const d = Math.hypot(p.x - e.clientX, p.y - e.clientY);
+        if (d < 80) {
+            const angle = Math.atan2(p.y - e.clientY, p.x - e.clientX);
+            const force = (80 - d) / 80;
+            p.vx += Math.cos(angle) * force * 0.4;
+            p.vy += Math.sin(angle) * force * 0.4;
+            p.vx *= 0.9; p.vy *= 0.9;
+        }
+    });
+});
+</script>
+</body>
+</html>

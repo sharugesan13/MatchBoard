@@ -1,0 +1,54 @@
+@model IEnumerable<MatchBoard.Web.Models.Project>
+@{
+    ViewData["Title"] = "Blind Review Dashboard";
+}
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Blind Review Dashboard</h2>
+        <div>
+            <a asp-action="SetExpertise" class="btn btn-outline-secondary me-2">Set Expertise</a>
+            <a asp-action="MyMatches" class="btn btn-outline-success">My Matches</a>
+        </div>
+    </div>
+
+    <div class="alert alert-info">
+        <strong>Blind Mode Active:</strong> Student identities are hidden until you confirm a match.
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-warning">No projects available in your research area.</div>
+    }
+    else
+    {
+        @foreach (var project in Model)
+        {
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">@project.Title</h5>
+                    <span class="badge bg-primary mb-2">@project.ResearchArea</span>
+                    <span class="badge bg-secondary mb-2">@project.Status</span>
+                    <p class="card-text">@project.Abstract</p>
+                    <p><strong>Tech Stack:</strong> @project.TechStack</p>
+                    <p class="text-muted fst-italic">Student identity hidden</p>
+
+                    @if (project.Status == "Pending")
+                    {
+                        <form method="post" action="/Supervisor/ExpressInterest">
+                            <input type="hidden" name="projectId" value="@project.Id" />
+                            <button type="submit" class="btn btn-primary">Express Interest</button>
+                        </form>
+                    }
+                    else if (project.Status == "UnderReview")
+                    {
+                        <form method="post" action="/Supervisor/ConfirmMatch">
+                            <input type="hidden" name="projectId" value="@project.Id" />
+                            <button type="submit" class="btn btn-success">Confirm Match</button>
+                        </form>
+                    }
+                </div>
+            </div>
+        }
+    }
+</div>

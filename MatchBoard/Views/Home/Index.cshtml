@@ -1,0 +1,211 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+<style>
+@@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+@@keyframes shimmer {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+.hero {
+    min-height: calc(100vh - 56px - 53px);
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 80px 0 60px; margin-top: -36px;
+}
+.hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; font-weight: 600; color: #e2e8f0;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    margin-bottom: 22px;
+    animation: fadeUp 0.5s ease both;
+}
+.hero-line { width: 24px; height: 1.5px; background: #ffffff; display: inline-block; }
+.hero-title {
+    font-size: 52px; font-weight: 700;
+    color: #ffffff !important;
+    letter-spacing: -2px; line-height: 1.08;
+    margin-bottom: 20px;
+    animation: fadeUp 0.5s 0.1s ease both; opacity:0; animation-fill-mode:both;
+}
+.hero-title .grad {
+    background: linear-gradient(135deg, #ffffff, #cbd5e1, #94a3b8);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 5s ease infinite;
+}
+.hero-sub {
+    font-size: 16px; color: #94a3b8; max-width: 440px;
+    line-height: 1.7; margin-bottom: 38px;
+    animation: fadeUp 0.5s 0.2s ease both; opacity:0; animation-fill-mode:both;
+}
+.hero-btns {
+    display: flex; gap: 12px; flex-wrap: wrap;
+    animation: fadeUp 0.5s 0.28s ease both; opacity:0; animation-fill-mode:both;
+}
+.btn-hp {
+    background: rgba(255,255,255,0.15); color: #fff;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px; font-weight: 600;
+    padding: 11px 24px; border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.3);
+    cursor: pointer; transition: all 0.2s;
+    text-decoration: none; display: inline-block;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 0 20px rgba(255,255,255,0.1);
+}
+.btn-hp:hover {
+    background: rgba(255,255,255,0.25);
+    color: #fff; transform: translateY(-2px);
+    box-shadow: 0 0 32px rgba(255,255,255,0.2);
+    border-color: rgba(255,255,255,0.5);
+}
+.btn-ho {
+    background: transparent; color: #94a3b8;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px; font-weight: 600;
+    padding: 11px 24px; border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.1);
+    cursor: pointer; transition: all 0.2s;
+    text-decoration: none; display: inline-block;
+}
+.btn-ho:hover {
+    background: rgba(255,255,255,0.06);
+    color: #e2e8f0;
+    border-color: rgba(255,255,255,0.2);
+}
+.hero-divider {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.25), transparent);
+    margin: 44px 0;
+    animation: fadeUp 0.5s 0.34s ease both; opacity:0; animation-fill-mode:both;
+}
+.role-grid {
+    display: grid; grid-template-columns: repeat(3,1fr); gap: 14px;
+    animation: fadeUp 0.5s 0.36s ease both; opacity:0; animation-fill-mode:both;
+}
+@@media(max-width:768px){ .role-grid{grid-template-columns:1fr} }
+.role-item {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px; padding: 22px 18px;
+    transition: all 0.25s; backdrop-filter: blur(12px);
+    position: relative; overflow: hidden;
+}
+.role-item::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+}
+.role-item:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.18);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 36px rgba(0,0,0,0.35);
+}
+.role-num { font-size: 10px; font-weight: 700; color: #94a3b8; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px; display: block; }
+.role-item h4 { font-size: 14px; font-weight: 700; color: #ffffff !important; margin-bottom: 8px; }
+.role-item p { font-size: 12px; color: #64748b; line-height: 1.5; margin-bottom: 16px; }
+.login-hint {
+    margin-top: 24px; font-size: 13px; color: #475569;
+    animation: fadeUp 0.5s 0.42s ease both; opacity:0; animation-fill-mode:both;
+}
+.welcome-hero {
+    min-height: calc(100vh - 56px - 53px);
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; text-align: center;
+    padding: 60px 20px; margin-top: -36px;
+}
+.welcome-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px; padding: 52px 44px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 60px rgba(0,0,0,0.4);
+    max-width: 500px; width: 100%;
+    position: relative; overflow: hidden;
+}
+.welcome-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+}
+.wc-label { font-size: 10px; font-weight: 700; color: #64748b; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px; display: block; }
+.wc-title { font-size: 32px; font-weight: 700; color: #ffffff !important; letter-spacing: -1px; margin-bottom: 10px; }
+.wc-sub { font-size: 14px; color: #64748b; margin-bottom: 28px; }
+.wc-btns { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+</style>
+
+@if (!User.Identity!.IsAuthenticated)
+{
+    <div class="hero">
+        <div>
+            <div class="hero-eyebrow">
+                <span class="hero-line"></span>
+                Blind Match System
+            </div>
+            <h1 class="hero-title">
+                Match projects<br>with <span class="grad">the right</span><br>supervisor.
+            </h1>
+            <p class="hero-sub">
+                A fair, bias-free platform for matching student research projects with academic supervisors.
+            </p>
+            <div class="hero-btns">
+                <a href="/Account/Login" class="btn-hp">Get started →</a>
+                <a href="/Account/Register" class="btn-ho">Create account</a>
+            </div>
+            <div class="hero-divider"></div>
+            <div class="role-grid">
+                <div class="role-item">
+                    <span class="role-num">01 — Student</span>
+                    <h4>🎓 Student</h4>
+                    <p>Submit your research proposal and get matched with the best supervisor.</p>
+                    <a href="/Account/Register" class="btn btn-primary btn-sm">Register as Student</a>
+                </div>
+                <div class="role-item">
+                    <span class="role-num">02 — Supervisor</span>
+                    <h4>👨‍🏫 Supervisor</h4>
+                    <p>Browse anonymous proposals and select projects that match your expertise.</p>
+                    <a href="/Account/SupervisorRegister" class="btn btn-success btn-sm">Register as Supervisor</a>
+                </div>
+                <div class="role-item">
+                    <span class="role-num">03 — Admin</span>
+                    <h4>🛡️ Module Leader</h4>
+                    <p>Oversee the allocation process and manage the system.</p>
+                    <a href="/Account/ModuleLeaderRegister" class="btn btn-warning btn-sm">Register as Module Leader</a>
+                </div>
+            </div>
+            <p class="login-hint">
+                Already have an account? <a href="/Account/Login" style="color:#e2e8f0;font-weight:600">Login here</a>
+            </p>
+        </div>
+    </div>
+}
+else
+{
+    <div class="welcome-hero">
+        <div class="welcome-card">
+            <span class="wc-label">You're logged in</span>
+            <h2 class="wc-title">Welcome back!</h2>
+            <p class="wc-sub">What would you like to do today?</p>
+            <div class="wc-btns">
+                @if (User.IsInRole("Student"))
+                {
+                    <a href="/Project/Index" class="btn-hp">My Projects</a>
+                    <a href="/Project/Create" class="btn-ho">Submit New Proposal</a>
+                }
+                @if (User.IsInRole("Supervisor"))
+                {
+                    <a href="/Supervisor/Dashboard" class="btn-hp">Review Projects</a>
+                    <a href="/Supervisor/MyMatches" class="btn-ho">My Matches</a>
+                }
+                @if (User.IsInRole("ModuleLeader"))
+                {
+                    <a href="/Admin/Dashboard" class="btn-hp">Admin Dashboard</a>
+                }
+            </div>
+        </div>
+    </div>
+}
