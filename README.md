@@ -1,11 +1,9 @@
 # MatchBoard – Blind Matching System
 
-## 📌 Project Description
+## Project Description
 MatchBoard is a web-based application designed to manage and automate the matching process between students and supervisors in an academic environment. The system uses a blind matching approach where initial identity details are hidden to ensure unbiased selection based on project proposals and supervisor expertise.
 
----
-
-## 🚀 Features
+## Features
 - User authentication system (Student, Supervisor, Admin)
 - Student project submission system
 - Supervisor expertise management
@@ -14,9 +12,7 @@ MatchBoard is a web-based application designed to manage and automate the matchi
 - Match reveal system after assignment completion
 - Role-based access control
 
----
-
-## 🛠️ Tech Stack
+## Tech Stack
 - ASP.NET Core MVC (.NET 9.0)
 - Entity Framework Core
 - SQL Server
@@ -25,9 +21,7 @@ MatchBoard is a web-based application designed to manage and automate the matchi
 - jQuery
 - Unit Testing Framework (.NET Test Project)
 
----
-
-## 📁 Project Structure
+## Project Structure
 MatchBoard/
 │── MatchBoard.Web/ → Main web application
 │ │── Controllers/ → MVC Controllers
@@ -40,12 +34,11 @@ MatchBoard/
 │
 │── MatchBoard.Tests/ → Unit Testing Project
 
-
----
-
 ##  How to Run the Project
 
+
 ### 1. Clone Repository
+
 ```bash
 git clone https://github.com/sharugesan13/MatchBoard.git
 cd MatchBoard
