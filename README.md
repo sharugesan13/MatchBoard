@@ -39,3 +39,36 @@ MatchBoard/
 │ │── wwwroot/ → Static files (CSS, JS, Libraries)
 │
 │── MatchBoard.Tests/ → Unit Testing Project
+
+
+---
+
+##  How to Run the Project
+
+### 1. Clone Repository
+```bash
+git clone https://github.com/sharugesan13/MatchBoard.git
+cd MatchBoard
+
+2. Restore Dependencies
+dotnet restore MatchBoard.sln
+
+3. Build Project
+dotnet build MatchBoard.sln
+
+4. Run Database Migrations
+dotnet ef database update
+
+5. Run Application
+dotnet run --project MatchBoard.Web
+
+6. Running Tests
+dotnet test MatchBoard.sln
+
+Notes for Evaluators
+Ensure SQL Server is installed and running
+Update connection string in appsettings.json if required
+Application follows MVC architecture with layered separation of concerns
+
+## Author
+Developed by Group BE – Academic Project Submission
