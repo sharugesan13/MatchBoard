@@ -50,19 +50,19 @@ MatchBoard/
 git clone https://github.com/sharugesan13/MatchBoard.git
 cd MatchBoard
 
-2. Restore Dependencies
+### 2. Restore Dependencies
 dotnet restore MatchBoard.sln
 
-3. Build Project
+### 3. Build Project
 dotnet build MatchBoard.sln
 
-4. Run Database Migrations
+### 4. Run Database Migrations
 dotnet ef database update
 
-5. Run Application
+### 5. Run Application
 dotnet run --project MatchBoard.Web
 
-6. Running Tests
+### 6. Running Tests
 dotnet test MatchBoard.sln
 
 Notes for Evaluators
